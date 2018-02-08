@@ -1,7 +1,8 @@
 package dev.sgpwebapi.controller;
 
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +44,36 @@ public class CollaborateurController {
 	@ResponseBody
 	public void modifiercollaborateur(@PathVariable String matricule, @RequestBody Collaborateur collabModifier) {
 		Collaborateur collabAModif = collaborateurRepo.findByMatricule(matricule);
-			if(collabAModif != null ) {	
-				collabModifier.setId(collabAModif.getId());
-				collaborateurRepo.save(collabModifier);
-			}
+		if (collabAModif != null) {
+			collabModifier.setId(collabAModif.getId());
+			collaborateurRepo.save(collabModifier);
+		}
 	}
-	
 
+	@GetMapping("/{matricule}/banque")
+	public Map<String, String> affichercoordcollaborateur(@PathVariable String matricule) {
+
+		Collaborateur collaborateur = collaborateurRepo.findByMatricule(matricule);
+		Map<String, String> collaborateurmap = new HashMap<>();
+
+		collaborateurmap.put("banque", collaborateur.getBanque());
+		collaborateurmap.put("bic", collaborateur.getBic());
+		collaborateurmap.put("iban", collaborateur.getIban());
+
+		return collaborateurmap;
+	}
+
+	@PutMapping("/{matricule}/banque")
+	@ResponseBody
+	public void modifiercollaborateurbanque(@PathVariable String matricule, @RequestBody Map<String, String> collab) {
+		Collaborateur collaborateur = collaborateurRepo.findByMatricule(matricule);
+
+		collaborateur.setBanque(collab.get("banque"));
+		collaborateur.setBic(collab.get("bic"));
+		collaborateur.setIban(collab.get("iban"));
+		
+		collaborateurRepo.save(collaborateur);
+
+	}
 
 }

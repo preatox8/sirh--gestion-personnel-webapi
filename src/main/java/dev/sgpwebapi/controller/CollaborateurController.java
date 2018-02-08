@@ -41,7 +41,6 @@ public class CollaborateurController {
 	}
 
 	@PutMapping("/{matricule}")
-	@ResponseBody
 	public void modifiercollaborateur(@PathVariable String matricule, @RequestBody Collaborateur collabModifier) {
 		Collaborateur collabAModif = collaborateurRepo.findByMatricule(matricule);
 		if (collabAModif != null) {
@@ -64,7 +63,6 @@ public class CollaborateurController {
 	}
 
 	@PutMapping("/{matricule}/banque")
-	@ResponseBody
 	public void modifiercollaborateurbanque(@PathVariable String matricule, @RequestBody Map<String, String> collab) {
 		Collaborateur collaborateur = collaborateurRepo.findByMatricule(matricule);
 

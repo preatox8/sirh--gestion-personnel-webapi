@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.sgpwebapi.entite.Collaborateur;
@@ -39,17 +40,15 @@ public class CollaborateurController {
 	}
 
 	@PutMapping("/{matricule}")
-	public Collaborateur modifiercollaborateur(@PathVariable String matricule) {
+	@ResponseBody
+	public void modifiercollaborateur(@PathVariable String matricule, @RequestBody Collaborateur collabModifier) {
 		Collaborateur collabAModif = collaborateurRepo.findByMatricule(matricule);
-		Collaborateur collabmodifier = new Collaborateur();
 			if(collabAModif != null ) {	
-				collabmodifier = collabAModif;
-				collabmodifier.setMatricule("Matricule Modifier");
-				collaborateurRepo.save(collabmodifier);
+				collabModifier.setId(collabAModif.getId());
+				collaborateurRepo.save(collabModifier);
 			}
-		return null;
 	}
 	
-	
+
 
 }
